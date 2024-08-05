@@ -21,7 +21,7 @@ export const CardWrapper = ({ buttonHref, buttonLabel, social }: Props) => {
 
   useEffect(() => {
     if (status === "authenticated") return router.push("/");
-  }, [status]);
+  }, [status,router]);
   
   const Component = pathname.includes("login") ? LoginForm : RegisterForm;
   const onClick = async () => {

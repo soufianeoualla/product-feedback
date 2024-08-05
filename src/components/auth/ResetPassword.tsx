@@ -36,7 +36,7 @@ export const ResetPassword = () => {
     form.reset({
       token: token,
     });
-  }, []);
+  }, [token,form]);
 
   const {
     mutate: resetPassword,

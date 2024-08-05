@@ -1,12 +1,11 @@
-import { SuggestionWrapper } from "./_components/SuggestionWrapper"
+import { SuggestionWrapper } from "./_components/SuggestionWrapper";
 
 const page = () => {
   return (
     <>
-    
-    <SuggestionWrapper/>
+        <SuggestionWrapper />
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

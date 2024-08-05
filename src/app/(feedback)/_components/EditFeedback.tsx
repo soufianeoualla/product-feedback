@@ -71,7 +71,7 @@ export const EditFeedback = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") return router.push("/auth/login");
-  }, [status]);
+  }, [status,router]);
 
   const {
     mutate: editFeedback,

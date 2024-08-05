@@ -5,7 +5,6 @@ import { type BasicFeedback, useFeedbacksStore } from "~/store/feedback";
 import { SuggestionItem } from "~/components/SuggestionItem";
 import { Button } from "~/components/ui/button";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export const Suggestions = ({

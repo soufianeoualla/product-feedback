@@ -12,6 +12,7 @@ export default {
       clientSecret: process.env.GOOGLE_SECRET_KEY,
     }),
     Credentials({
+      //@ts-expect-error authorize
       async authorize(credentials) {
         const validateFields = loginSchema.safeParse(credentials);
 
@@ -20,13 +21,15 @@ export default {
 
           const user = await getUserbyEmail(email);
 
-          if (!user?.password) return null;
+          if (user?.password) {
+            const isPasswordMatch = await bcrypt.compare(
+              password,
+              user.password,
+            );
 
-          const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-          if (isPasswordMatch) return user;
+            if (isPasswordMatch) return user;
+          }
         }
-
         return null;
       },
     }),

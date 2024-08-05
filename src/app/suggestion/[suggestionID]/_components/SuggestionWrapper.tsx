@@ -33,7 +33,10 @@ export const SuggestionWrapper = () => {
         <Loader2 className="animate-spin text-primary" />
       </div>
     );
-  if (!data) return router.push("/");
+  if (!data) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="mx-auto max-w-[730px] py-20 tablet:px-4">

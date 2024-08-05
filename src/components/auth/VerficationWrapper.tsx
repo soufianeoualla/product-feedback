@@ -1,6 +1,5 @@
 "use client";
 import { api } from "~/trpc/react";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Loader } from "lucide-react";

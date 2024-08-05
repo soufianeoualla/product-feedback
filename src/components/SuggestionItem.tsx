@@ -17,7 +17,6 @@ export const SuggestionItem = ({ suggestion }: Props) => {
   const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
-  const commentsLength = comments.length;
   const isUpvoted = user?.feedbackUpvote.find(
     (upvote) => upvote.feedbackId === id,
   )

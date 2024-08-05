@@ -16,7 +16,7 @@ type Props = {
 export const CommentItem = ({ comment }: Props) => {
   const [replyOpend, setReplyOpned] = useState(false);
   const [edit, setEdit] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const user = session?.user;
   const { removeComment } = useFeedbacksStore();
 

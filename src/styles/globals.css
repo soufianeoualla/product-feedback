@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+p {
+  color: #647196;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+
+

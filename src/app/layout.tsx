@@ -1,9 +1,11 @@
 import "~/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
+import { Jost } from "next/font/google";
 import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -11,13 +13,18 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const font = Jost({ subsets: ["latin"] });
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+    <html lang="en" className={`${font.className}`}>
+      <body className="bg-slate-100">
+        <TRPCReactProvider>
+          <SessionProvider>{children}</SessionProvider>
+          <Toaster position="bottom-right" reverseOrder={false} />
+        </TRPCReactProvider>
       </body>
     </html>
   );

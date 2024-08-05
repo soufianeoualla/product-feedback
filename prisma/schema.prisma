@@ -2,19 +2,125 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
+// prisma/schema.prisma
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id             String           @id @default(cuid()) @map(name: "id")
+  name           String
+  username       String           @unique
+  email          String           @unique
+  password       String?
+  emailVerified  DateTime?
+  image          String?
+  role           Role             @default(user)
+  account        Account[]
+  comments       Comment[]
+  feedabacks     Feedback[]
+  feedbackUpvote FeedbackUpvote[]
+}
 
-    @@index([name])
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Feedback {
+  id             String           @id @default(uuid())
+  title          String
+  category       Category
+  detail         String
+  status         Status           @default(Suggestion)
+  upvotes        Int              @default(0)
+  comments       Comment[]
+  user           User             @relation(fields: [userId], references: [id])
+  userId         String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?
+  fneedbackUpvote FeedbackUpvote[]
+}
+
+model FeedbackUpvote {
+  userId     String
+  feedbackId String
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedback Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+
+  @@id([userId, feedbackId])
+}
+
+model Comment {
+  id         Int       @id @default(autoincrement())
+  reply_To   String?
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  parentId   Int?
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    Comment[] @relation("CommentReplies")
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  Feedback   Feedback  @relation(fields: [feedbackId], references: [id])
+  feedbackId String
+}
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  email      String
+  expires_at DateTime
+
+  @@unique([email, token])
+}
+
+model ResetToken {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  email      String
+  expires_at DateTime
+
+  @@unique([email, token])
+}
+
+enum Status {
+  Planned
+  Suggestion
+  InProgress
+  Live
+}
+
+enum Category {
+  UI
+  UX
+  Enhancement
+  Bug
+  Feature
+}
+
+enum Role {
+  admin
+  user
 }

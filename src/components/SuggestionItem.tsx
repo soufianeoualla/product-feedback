@@ -44,15 +44,16 @@ export const SuggestionItem = ({ suggestion }: Props) => {
           <Category text={category} />
         </div>
 
-        <div className="mt-6 flex w-full items-center justify-between">
+        <div className="mt-6 hidden w-full items-center justify-between mobile:flex">
           <Upvotes
             upvotes={upvotes}
-            className="static inset-0 hidden translate-y-0 flex-row gap-2 mobile:flex"
+            className="static inset-0 flex translate-y-0 flex-row gap-2"
             id={id}
             isUpvoted={isUpvoted ? true : false}
           />
           <CommentsIcon commentsLength={comments.length} />
         </div>
+        <CommentsIcon commentsLength={comments.length} />
       </div>
     </div>
   );

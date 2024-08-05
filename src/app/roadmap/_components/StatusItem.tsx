@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { CommentsIcon } from "~/components/CommentsIcon";
 import { Status } from "~/components/Status";
@@ -15,6 +16,7 @@ type Props = {
 
 export const StatusItem = ({ text, feedback }: Props) => {
   const { data: session } = useSession();
+  const router = useRouter();
   const isUpvoted = session?.user?.feedbackUpvote.find(
     (upvote) => upvote.feedbackId === feedback.id,
   );
@@ -52,6 +54,7 @@ export const StatusItem = ({ text, feedback }: Props) => {
         isUpvoted={isUpvoted ? true : false}
       />
       <div
+        onClick={() => router.push(`/suggestion/${feedback.id}`)}
         className={cn(
           "mb-4 rounded-md border-t-[6px] bg-white px-8 pb-6 shadow-sm",
           borderColor,

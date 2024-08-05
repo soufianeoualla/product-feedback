@@ -18,6 +18,8 @@ export const Suggestions = ({
     if (feedbacksData) setFeedbacks(feedbacksData);
   }, [feedbacksData, setFeedbacks]);
 
+const suggestions = feedbacks.filter(item=>item.status === 'Suggestion')
+
   if (feedbacks.length === 0)
     return (
       <div className="mt-20 flex flex-col items-center justify-center">
@@ -45,7 +47,7 @@ export const Suggestions = ({
     );
   return (
     <div className="mt-6 w-full mobile:px-3">
-      {feedbacks.map((item) => (
+      {suggestions.map((item) => (
         <SuggestionItem key={item.id} suggestion={item} />
       ))}
     </div>

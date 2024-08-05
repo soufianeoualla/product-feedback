@@ -27,7 +27,7 @@ export const SuggestionItem = ({ suggestion }: Props) => {
     <div className="relative">
       <Upvotes
         upvotes={upvotes}
-        className="flex-col mobile:hidden mobile:flex-row mobile:gap-x-2"
+        className="flex-col mobile:flex-row mobile:gap-x-2 "
         id={id}
         isUpvoted={isUpvoted ? true : false}
       />
@@ -35,7 +35,7 @@ export const SuggestionItem = ({ suggestion }: Props) => {
         onClick={() => router.push(`/suggestion/${id}`)}
         className="group relative mb-5 flex w-full cursor-pointer items-center justify-between rounded-[10px] bg-white px-8 py-7 mobile:flex-col mobile:p-6"
       >
-        <div className="ml-20 mobile:ml-0">
+        <div className="ml-20 mobile:ml-0 mobile:mb-12">
           <h2 className="text-lg text-dark-blue group-hover:text-blue-600">
             {title}
           </h2>
@@ -43,15 +43,7 @@ export const SuggestionItem = ({ suggestion }: Props) => {
           <Category text={category} />
         </div>
 
-        <div className="mt-6 hidden w-full items-center justify-between mobile:flex">
-          <Upvotes
-            upvotes={upvotes}
-            className="static inset-0 flex translate-y-0 flex-row gap-2"
-            id={id}
-            isUpvoted={isUpvoted ? true : false}
-          />
-          <CommentsIcon commentsLength={comments.length} />
-        </div>
+        
         <CommentsIcon commentsLength={comments.length} />
       </div>
     </div>

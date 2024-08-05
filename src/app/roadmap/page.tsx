@@ -5,11 +5,13 @@ import { Column } from "./_components/Column";
 import { useFeedbacksStore } from "~/store/feedback";
 import type { BasicFeedback } from "~/store/feedback";
 import { api } from "~/trpc/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { cn } from "~/lib/utils";
 
 const Page = () => {
   const { feedbacks, setFeedbacks } = useFeedbacksStore();
+  const [selectedFeedbacks, setSelectedFeedbacks] = useState(1);
   const {
     data: feedbacksData,
     isLoading,
@@ -57,25 +59,49 @@ const Page = () => {
     );
 
   return (
-    <div className="tablet:px-4 mx-auto max-w-[1100px] py-20">
-      <Header>
-        <div>
-          <GobackBtn className="text-white" iconColor="white" />
-          <h1 className="text-2xl text-white">Roadmap</h1>
-        </div>
-      </Header>
+    <>
+      <div className="mx-auto max-w-[1100px] py-20 tablet:px-4 mobile:p-0">
+        <Header>
+          <div>
+            <GobackBtn className="text-white" iconColor="white" />
+            <h1 className="text-2xl text-white mobile:text-lg">Roadmap</h1>
+          </div>
+        </Header>
 
-      <div className="tablet:gap-x-2.5 tablet:text-[13px] mt-12 grid grid-cols-3 gap-8">
-        {columns.map((column) => (
+        <div className="mt-12 grid grid-cols-3 gap-8 tablet:gap-x-2.5 tablet:text-[13px] mobile:hidden">
+          {columns.map((column) => (
+            <Column
+              key={column.label}
+              feedbacks={column.feedbacks}
+              description={column.description}
+              label={column.label}
+            />
+          ))}
+        </div>
+        <div className="hidden mobile:block">
+          <div className="flex w-full items-center justify-between bg-white">
+            {columns.map((column, index) => (
+              <span
+                onClick={() => setSelectedFeedbacks(index)}
+                key={column.label}
+                className={cn(
+                  "flex w-[125px] items-center justify-center border-b border-b-slate-100 pb-4 pt-5 text-[13px] font-bold text-neutral-400",
+                  selectedFeedbacks === index &&
+                    "border-b-[3px] border-b-primary text-dark-blue",
+                )}
+              >
+                {column.label} ({column.feedbacks.length})
+              </span>
+            ))}
+          </div>
           <Column
-            key={column.label}
-            feedbacks={column.feedbacks}
-            description={column.description}
-            label={column.label}
+            feedbacks={columns[selectedFeedbacks]!.feedbacks}
+            description={columns[selectedFeedbacks]!.description}
+            label={columns[selectedFeedbacks]!.label}
           />
-        ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ type Props = {
 
 export const Column = ({ label, description, feedbacks }: Props) => {
   return (
-    <div>
+    <div className="mobile:p-4">
       <h2 className="text-lg text-dark-blue ">
         {label} ({feedbacks.length})
       </h2>

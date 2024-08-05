@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 import { CommentsIcon } from "~/components/CommentsIcon";
 import { Status } from "~/components/Status";
@@ -43,27 +44,30 @@ export const StatusItem = ({ text, feedback }: Props) => {
   }
 
   return (
-    <div
-      className={cn(
-        "rounded-md border-t-[6px] bg-white px-8 pb-6 shadow-sm  mb-4",
-        borderColor,
-      )}
-    >
-      
+    <div className="relative">
+      <Upvotes
+        upvotes={feedback.upvotes}
+        className="flex-col mobile:flex-row mobile:gap-x-2"
+        id={feedback.id}
+        isUpvoted={isUpvoted ? true : false}
+      />
+      <div
+        className={cn(
+          "mb-4 rounded-md border-t-[6px] bg-white px-8 pb-6 shadow-sm",
+          borderColor,
+        )}
+      >
         <Status text={text} background={background} />
-        <h2 className="mt-2 text-lg tablet:text-[13px] text-dark-blue">{feedback.title}</h2>
+
+        <h2 className="mt-2 text-lg text-dark-blue tablet:text-[13px]">
+          {feedback.title}
+        </h2>
+
         <p className="mb-4 mt-1">{feedback.detail}</p>
         <Category text="Feature" />
-        <div className="mt-6 flex items-center justify-between">
-          <Upvotes
-            upvotes={feedback.upvotes}
-            className="static inset-0 translate-y-0 flex-row gap-2"
-            id={feedback.id}
-            isUpvoted={isUpvoted ? true : false}
-          />
-          <CommentsIcon commentsLength={feedback.comments.length} />
-        </div>
- 
+
+        <CommentsIcon commentsLength={feedback.comments.length} />
+      </div>
     </div>
   );
 };

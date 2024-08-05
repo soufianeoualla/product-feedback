@@ -6,7 +6,6 @@ import { loginSchema } from "schemas";
 import type { z } from "zod";
 import { generateVerificationToken } from "~/lib/tokens";
 import { getUserbyEmail } from "~/lib/user";
-import { db } from "~/server/db";
 
 export const loginHandler = async (values: z.infer<typeof loginSchema>) => {
   const validateFields = loginSchema.safeParse(values);
@@ -35,7 +34,6 @@ export const loginHandler = async (values: z.infer<typeof loginSchema>) => {
   }
   try {
     await signIn("credentials", { email, password });
-    return { url: "/" };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>();
-  const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -30,12 +29,15 @@ export const LoginForm = () => {
   });
 
   const [isPending, startTransition] = useTransition();
-
+  const router = useRouter();
   const handleLogin = (values: z.infer<typeof loginSchema>) => {
     startTransition(async () => {
       await loginHandler(values).then((data) => {
-        setError(data?.error);
-        data?.url && router.push(data.url);
+        if (data?.error) {
+          setError(data?.error);
+        } else {
+          router.push("/");
+        }
       });
     });
   };

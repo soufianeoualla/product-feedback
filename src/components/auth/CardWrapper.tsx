@@ -30,7 +30,7 @@ export const CardWrapper = ({ buttonHref, buttonLabel, social }: Props) => {
     });
   };
   return (
-    <div className="w-[370px] rounded-[10px] bg-white p-8 shadow-sm">
+    <div className="w-[370px] mobile:w-full rounded-[10px] bg-white p-8 shadow-sm">
       {social && (
         <>
           <Button

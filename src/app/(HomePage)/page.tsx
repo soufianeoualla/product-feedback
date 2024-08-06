@@ -20,8 +20,9 @@ export default function Home() {
     <>
       {data && (
         <div className="relative mx-auto flex max-w-screen-xl gap-x-10 py-6 tablet:w-full tablet:flex-col tablet:p-6 mobile:p-0">
-          <div className="desktop:max-w-[255px] mobile:hidden">
+          <div className="relative desktop:max-w-[255px] mobile:hidden h-full">
             <Sidebar feedbacksData={data} />
+           
           </div>
           <div className="hidden mobile:block">
             <MobileSidebar feedbacksData={data} />

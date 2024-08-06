@@ -37,7 +37,7 @@ export const Upvotes = ({ upvotes, className, id, isUpvoted }: Props) => {
     <button
       onClick={onClick}
       className={cn(
-        "absolute left-8 top-1/2 z-10 flex h-[53px] w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[10px] bg-slate-100 hover:bg-blue-100 focus:bg-[#4661E6] focus:text-white disabled:opacity-50 mobile:bottom-4 mobile:left-4 mobile:top-auto mobile:h-8 mobile:w-[69px] mobile:translate-x-0 mobile:translate-y-0",
+        "absolute left-8 top-1/2 z-10 flex h-[53px] w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[10px] bg-slate-100 hover:bg-blue-100 mobile:focus:bg-[#4661E6] mobile:focus:text-white disabled:opacity-50 mobile:bottom-4 mobile:left-4 mobile:top-auto mobile:h-8 mobile:w-[69px] mobile:translate-x-0 mobile:translate-y-0",
         className,
         isUserUpvoted && "bg-[#4661E6] text-white",
       )}

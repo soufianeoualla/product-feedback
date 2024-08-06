@@ -16,7 +16,6 @@ import { FormError } from "./FormError";
 import { loginSchema } from "schemas";
 import { loginHandler } from "action/login";
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>();
@@ -29,14 +28,13 @@ export const LoginForm = () => {
   });
 
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const handleLogin = (values: z.infer<typeof loginSchema>) => {
     startTransition(async () => {
       await loginHandler(values).then((data) => {
         if (data?.error) {
           setError(data?.error);
         } else {
-          router.push("/");
+          window.location.href = "/";
         }
       });
     });

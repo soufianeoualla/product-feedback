@@ -29,10 +29,8 @@ import { categories } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 import { Textarea } from "~/components/ui/textarea";
-import { useRouter } from "next/navigation";
 
 export const NewFeedback = () => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof newFeedbackSchema>>({
     resolver: zodResolver(newFeedbackSchema),
     defaultValues: {
@@ -54,7 +52,7 @@ export const NewFeedback = () => {
     onSuccess() {
       toast.dismiss(toastId);
       toast.success("Feedback created");
-      router.push("/");
+     
     },
     onError() {
       toast.dismiss(toastId);

@@ -59,7 +59,6 @@ export const EditFeedback = () => {
     { enabled: !!id },
   );
   useEffect(() => {
-    if (!id || !isFetched || !feedback) return router.back();
     form.reset({
       category: feedback?.category,
       feedbackDetail: feedback?.detail,
@@ -71,15 +70,22 @@ export const EditFeedback = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") return router.push("/auth/login");
-  }, [status,router]);
+  }, [status, router]);
+  let toastId: string;
 
   const {
     mutate: editFeedback,
     error,
     isPending,
   } = api.feedback.editFeedback.useMutation({
-    onSuccess() {
+    onMutate() {
+      toastId = toast.loading("Loading...");
+    },
+
+    onSuccess(data) {
+      toast.dismiss(toastId);
       toast.success("Your feedback has been successfully edited");
+      router.push("/");
     },
     onError() {
       error && toast.error(error?.message);
@@ -113,7 +119,7 @@ export const EditFeedback = () => {
       </div>
     );
   return (
-    <div className="mobile:p-6 relative rounded-[10px] bg-white p-10">
+    <div className="relative rounded-[10px] bg-white p-10 mobile:p-6">
       <div className="absolute -top-7 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-bl from-rose-500 from-[0%] via-purple-500 via-[53%] to-blue-500 to-[100%]">
         <Plus strokeWidth={3} className="text-white" />
       </div>
@@ -254,7 +260,7 @@ export const EditFeedback = () => {
               </FormItem>
             )}
           />
-          <div className="mobile:flex-col flex items-center justify-between">
+          <div className="flex items-center justify-between mobile:flex-col">
             <Button
               onClick={onDelete}
               disabled={isPending || isDeleting}
@@ -265,7 +271,7 @@ export const EditFeedback = () => {
             >
               Delete
             </Button>
-            <div className="mobile:flex-col flex items-center gap-x-4">
+            <div className="flex items-center gap-x-4 mobile:flex-col">
               <Button
                 onClick={() => router.back()}
                 disabled={isPending || isDeleting}

@@ -11,7 +11,7 @@ const sortOptions = [
   "Least Comments",
 ];
 export const Sort = () => {
-  const [selected, setSelected] = useState<string>("Most Upvotes");
+  const [selected, setSelected] = useState<string>("");
   const { feedbacks, setFeedbacks } = useFeedbacksStore();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const Sort = () => {
         sortedFeedbacks.sort((a, b) => b.upvotes - a.upvotes);
         break;
       default:
-        sortedFeedbacks.sort((a, b) => b.comments.length - a.comments.length);
+        sortedFeedbacks.sort((a, b) => b.upvotes - a.upvotes);
         break;
     }
 

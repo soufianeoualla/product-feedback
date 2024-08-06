@@ -100,6 +100,13 @@ export const addFeedback = async ({
       detail: feedbackDetail,
       userId: user.id,
     },
+    include: {
+      comments: {
+        include: {
+          replies: true,
+        },
+      },
+    },
   });
   return feedback;
 };
@@ -148,6 +155,13 @@ export const editFeedback = async ({
       title: feedbackTitle,
       detail: feedbackDetail,
       status,
+    },
+    include: {
+      comments: {
+        include: {
+          replies: true,
+        },
+      },
     },
   });
   return feedback;

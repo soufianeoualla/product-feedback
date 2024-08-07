@@ -82,10 +82,9 @@ export const EditFeedback = () => {
       toastId = toast.loading("Loading...");
     },
 
-    onSuccess(data) {
+    onSuccess() {
       toast.dismiss(toastId);
       toast.success("Your feedback has been successfully edited");
-      router.push("/");
     },
     onError() {
       error && toast.error(error?.message);

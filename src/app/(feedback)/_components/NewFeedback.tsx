@@ -29,8 +29,12 @@ import { categories } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 import { Textarea } from "~/components/ui/textarea";
+import { useFeedbacksStore } from "~/store/feedback";
+import { useRouter } from "next/navigation";
 
 export const NewFeedback = () => {
+  const { setFeedbacks, feedbacks } = useFeedbacksStore();
+  const router = useRouter();
   const form = useForm<z.infer<typeof newFeedbackSchema>>({
     resolver: zodResolver(newFeedbackSchema),
     defaultValues: {
@@ -49,10 +53,11 @@ export const NewFeedback = () => {
       toastId = toast.loading("Loading...");
     },
 
-    onSuccess() {
+    onSuccess(data) {
       toast.dismiss(toastId);
       toast.success("Feedback created");
-     
+      setFeedbacks([data, ...feedbacks]);
+      window.location.href='/'
     },
     onError() {
       toast.dismiss(toastId);
@@ -157,7 +162,7 @@ export const NewFeedback = () => {
               </FormItem>
             )}
           />
-          <div className="mobile:flex-col flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-4 mobile:flex-col">
             <Button
               className="mobile:w-full"
               disabled={isPending}

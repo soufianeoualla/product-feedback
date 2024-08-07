@@ -159,7 +159,15 @@ export const editFeedback = async ({
     include: {
       comments: {
         include: {
-          replies: true,
+          user: true,
+          replies: {
+            include: {
+              user: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       },
     },

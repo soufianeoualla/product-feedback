@@ -9,7 +9,6 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import {
   addFeedback,
   editFeedback,
-  getEditedFeedback,
   getFeedback,
   getFeedbacks,
   addComment,
@@ -36,13 +35,7 @@ export const feedbackRouter = createTRPCRouter({
   editFeedback: publicProcedure
     .input(editFeedbackSchema)
     .mutation(({ input }) => editFeedback({ input })),
-  getEditedFeedback: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      }),
-    )
-    .query(({ input }) => getEditedFeedback({ input })),
+
   deleteFeedback: publicProcedure
     .input(
       z.object({
@@ -60,7 +53,7 @@ export const feedbackRouter = createTRPCRouter({
   addComment: publicProcedure
     .input(addCommentSchema)
     .mutation(({ input }) => addComment({ input })),
-    editComment: publicProcedure
+  editComment: publicProcedure
     .input(editCommentSchema)
     .mutation(({ input }) => editComment({ input })),
   addReply: publicProcedure

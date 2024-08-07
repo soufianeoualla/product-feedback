@@ -3,13 +3,12 @@ import { Upvotes } from "./Upvotes";
 import { CommentsIcon } from "./CommentsIcon";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { BasicFeedback } from "~/store/feedback";
 
-import type { Comment, Feedback } from "@prisma/client";
 
-type ExtendedFeedback = Feedback & { comments: Comment[] };
 
 type Props = {
-  suggestion: ExtendedFeedback;
+  suggestion: BasicFeedback;
 };
 
 export const SuggestionItem = ({ suggestion }: Props) => {

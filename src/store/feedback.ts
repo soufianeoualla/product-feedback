@@ -53,6 +53,7 @@ export const useFeedbacksStore = create<FeedbacksState>((set) => ({
         comments: [...state.feedback.comments, comment],
       },
     })),
+
   updateComment: (id: number, content: string) =>
     set((state) => ({
       feedback: {

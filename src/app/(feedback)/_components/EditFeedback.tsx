@@ -31,7 +31,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Textarea } from "~/components/ui/textarea";
 import { useSession } from "next-auth/react";
+import { useFeedbacksStore } from "~/store/feedback";
 export const EditFeedback = () => {
+  const { setFeedbacks, feedbacks, setFeedback } = useFeedbacksStore();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const router = useRouter();
@@ -52,7 +54,7 @@ export const EditFeedback = () => {
     data: feedback,
     isLoading,
     isFetched,
-  } = api.feedback.getEditedFeedback.useQuery(
+  } = api.feedback.getFeedback.useQuery(
     {
       id: id ?? "",
     },
@@ -68,9 +70,6 @@ export const EditFeedback = () => {
     });
   }, [id, isFetched, feedback, form, router]);
 
-  useEffect(() => {
-    if (status === "unauthenticated") return router.push("/auth/login");
-  }, [status, router]);
   let toastId: string;
 
   const {
@@ -82,9 +81,11 @@ export const EditFeedback = () => {
       toastId = toast.loading("Loading...");
     },
 
-    onSuccess() {
+    onSuccess(data) {
       toast.dismiss(toastId);
       toast.success("Your feedback has been successfully edited");
+      setFeedback(data);
+      router.back();
     },
     onError() {
       error && toast.error(error?.message);
@@ -98,7 +99,8 @@ export const EditFeedback = () => {
   } = api.feedback.deleteFeedback.useMutation({
     onSuccess() {
       toast.success("Your feedback has been successfully deleted");
-      router.push("/");
+      setFeedbacks(feedbacks.filter((feedback) => feedback.id !== id));
+      window.location.href = "/";
     },
     onError() {
       deleteError && toast.error(deleteError?.message);

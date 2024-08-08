@@ -49,14 +49,14 @@ export const StatusItem = ({ text, feedback }: Props) => {
     <div className="relative">
       <Upvotes
         upvotes={feedback.upvotes}
-        className="flex-col mobile:flex-row mobile:gap-x-2"
+        className="bottom-4 left-8 top-auto h-8 w-[69px] translate-x-0 translate-y-0 gap-x-2"
         id={feedback.id}
         isUpvoted={isUpvoted ? true : false}
       />
       <div
         onClick={() => router.push(`/suggestion/${feedback.id}`)}
         className={cn(
-          "mb-4 rounded-md border-t-[6px] bg-white px-8 pb-6 shadow-sm",
+          "mb-4 rounded-md border-t-[6px] bg-white px-8 pb-20 shadow-sm",
           borderColor,
         )}
       >
@@ -69,7 +69,10 @@ export const StatusItem = ({ text, feedback }: Props) => {
         <p className="mb-4 mt-1">{feedback.detail}</p>
         <Category text="Feature" />
 
-        <CommentsIcon commentsLength={feedback.comments.length} />
+        <CommentsIcon
+          commentsLength={feedback.comments.length}
+          className="absolute bottom-4 right-8"
+        />
       </div>
     </div>
   );

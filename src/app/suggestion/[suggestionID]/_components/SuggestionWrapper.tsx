@@ -25,7 +25,7 @@ export const SuggestionWrapper = () => {
 
   useEffect(() => {
     if (data) setFeedback(data);
-  }, [data, setFeedback]);
+  }, [data,setFeedback]);
 
   if (isLoading || isFetching)
     return (

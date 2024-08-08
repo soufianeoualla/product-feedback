@@ -33,7 +33,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { useSession } from "next-auth/react";
 import { useFeedbacksStore } from "~/store/feedback";
 export const EditFeedback = () => {
-  const { setFeedbacks, feedbacks, setFeedback } = useFeedbacksStore();
+  const { setFeedback } = useFeedbacksStore();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const router = useRouter();
@@ -82,10 +82,12 @@ export const EditFeedback = () => {
     },
 
     onSuccess(data) {
+      setFeedback(data);
       toast.dismiss(toastId);
       toast.success("Your feedback has been successfully edited");
-      setFeedback(data);
-      router.back();
+      setTimeout(() => {
+        window.location.href = `/suggestion/${id}`;
+      }, 1000);
     },
     onError() {
       error && toast.error(error?.message);
@@ -99,7 +101,6 @@ export const EditFeedback = () => {
   } = api.feedback.deleteFeedback.useMutation({
     onSuccess() {
       toast.success("Your feedback has been successfully deleted");
-      setFeedbacks(feedbacks.filter((feedback) => feedback.id !== id));
       window.location.href = "/";
     },
     onError() {
